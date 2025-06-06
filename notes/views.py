@@ -3,12 +3,12 @@ from django.http import HttpResponse
 from notes.models import Note
 
 def index(request):
-    latest_notes_list = Note.objects.order_by("-pub_date")[:5]
-    print(latest_notes_list)
-    context = {"latest_notes_list": latest_notes_list}
-    return render(request, "notes/index.html", context)
+	latest_notes_list = Note.objects.order_by("-pub_date")[:5]
+	print(latest_notes_list)
+	context = {"latest_notes_list": latest_notes_list}
+	return render(request, "notes/index.html", context)
 
 
 def detail(request, note_id):
-    note = get_object_or_404(Note, pk=note_id)
-    return render(request, "notes/detail.html", {"note": note})
+	note = get_object_or_404(Note, pk=note_id)
+	return render(request, "notes/detail.html", {"note": note})

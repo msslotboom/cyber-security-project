@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from notes.models import Note
 
@@ -12,3 +12,9 @@ def index(request):
 def detail(request, note_id):
 	note = get_object_or_404(Note, pk=note_id)
 	return render(request, "notes/detail.html", {"note": note})
+
+
+def delete_note(request, note_id):
+	note = Note.objects.get(id=note_id)
+	note.delete()
+	return redirect('index')

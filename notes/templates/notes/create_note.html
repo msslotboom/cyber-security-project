@@ -1,0 +1,12 @@
+<h2>Create Note</h2>
+
+<form method="post">
+    {% csrf_token %}
+    <p>
+        <label for="note_text">Note:</label><br>
+        <textarea name="note_text" id="note_text" rows="4" cols="50" required></textarea>
+    </p>
+    <button type="submit">Create Note</button>
+</form>
+
+<p><a href="{% url 'index' %}">Back to Notes</a></p>

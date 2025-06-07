@@ -5,6 +5,8 @@ from django.urls import reverse_lazy
 from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import CreateView
+from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from notes.models import Note
 from django.contrib.auth.models import User
 
@@ -25,6 +27,19 @@ def delete_note(request, note_id):
 	note = Note.objects.get(id=note_id)
 	note.delete()
 	return redirect('index')
+
+@login_required
+def create_note(request):
+	if request.method == 'POST':
+		note_text = request.POST.get('note_text')
+		if note_text:
+			Note.objects.create(
+				owner=request.user,
+				note_text=note_text,
+				pub_date=timezone.now()
+			)
+			return redirect('index')
+	return render(request, 'notes/create_note.html')
 
 class CustomLoginView(LoginView):
 	# template_name = 'registration/login.html'

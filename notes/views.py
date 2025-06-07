@@ -11,20 +11,28 @@ from notes.models import Note
 from django.contrib.auth.models import User
 
 def index(request):
-	latest_notes_list = Note.objects.order_by("-pub_date")[:5]
-	print(latest_notes_list)
+	if request.user.is_authenticated:
+		latest_notes_list = Note.objects.filter(owner=request.user).order_by("-pub_date")[:5]
+	else:
+		latest_notes_list = []
 	context = {"latest_notes_list": latest_notes_list}
 	return render(request, "notes/index.html", context)
 
-
+#Fix: uncomment line below
+#@login_required
 def detail(request, note_id):
 	note = get_object_or_404(Note, pk=note_id)
+	# Fix: comment line above, uncomment line below
+	# note = get_object_or_404(Note, pk=note_id, owner=request.user)
 	owner = get_object_or_404(User, pk=note.owner_id)
 	return render(request, "notes/detail.html", {"note": note, "owner_name": owner.username})
 
-
+#Fix: uncomment line below
+#@login_required
 def delete_note(request, note_id):
-	note = Note.objects.get(id=note_id)
+	note = get_object_or_404(Note, id=note_id)
+	# Fix: comment line above, uncomment line below
+	# note = get_object_or_404(Note, id=note_id, owner=request.user)
 	note.delete()
 	return redirect('index')
 

@@ -1,3 +1,7 @@
+{% comment %} To fix this vulnerability, uncomment the line below, and delete
+the one with |safe
 <h4>{{ note.note_text }}</h4>
+{% comment %}
+<h4>{{ note.note_text|safe }}</h4>
 <h6>Owner: {{owner_name}}</h6>
 <a href="{% url 'delete_note' note.id %}">Click here to delete this note!</a>

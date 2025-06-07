@@ -17,7 +17,7 @@
             To fix this vulnerability, uncomment the line below, and delete
             the one with |safe
             <li><a href="/notes/{{ note.id }}/">{{ note.note_text }}</a></li>
-        {% comment %}
+        {% endcomment %}
         <li><a href="/notes/{{ note.id }}/">{{ note.note_text|safe }}</a></li>
     {% endfor %}
     </ul>

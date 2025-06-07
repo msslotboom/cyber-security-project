@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import CreateView
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from notes.models import Note
 from django.contrib.auth.models import User
@@ -27,14 +28,29 @@ def detail(request, note_id):
 	owner = get_object_or_404(User, pk=note.owner_id)
 	return render(request, "notes/detail.html", {"note": note, "owner_name": owner.username})
 
-#Fix: uncomment line below
-#@login_required
+# Fix for broken access control: uncomment line below
+# @login_required
+@csrf_exempt
 def delete_note(request, note_id):
 	note = get_object_or_404(Note, id=note_id)
-	# Fix: comment line above, uncomment line below
+	# Fix for broken access control: comment line above, uncomment line below
 	# note = get_object_or_404(Note, id=note_id, owner=request.user)
-	note.delete()
+	if note:
+		note.delete()
 	return redirect('index')
+
+# Fix for csrf. It also has the fix for broken access control, for which the fix can also be found in the
+# csrf-unsafe deletion method above.
+#@login required
+# def delete_note(request, note_id):
+# 	if request.method == 'POST':
+# 		note = get_object_or_404(Note, id=note_id)
+# 		# Fix: comment line above, uncomment line below
+# 		# note = get_object_or_404(Note, id=note_id, owner=request.user)
+# 		note.delete()
+# 		return redirect('index')
+# 	else:
+# 		return redirect('index')
 
 @login_required
 def create_note(request):

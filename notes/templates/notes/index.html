@@ -1,3 +1,14 @@
+{% if user.is_authenticated %}
+    <p>Welcome, {{ user.username }}!
+        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+            {% csrf_token %}
+            <button type="submit">Logout</button>
+        </form>
+    </p>
+{% else %}
+    <p><a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Sign Up</a></p>
+{% endif %}
+
 {% if latest_notes_list %}
     <ul>
     {% for note in latest_notes_list %}

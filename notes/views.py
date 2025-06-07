@@ -6,6 +6,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.http import HttpResponse
 from django.views.generic import CreateView
 from notes.models import Note
+from django.contrib.auth.models import User
 
 def index(request):
 	latest_notes_list = Note.objects.order_by("-pub_date")[:5]
@@ -16,7 +17,8 @@ def index(request):
 
 def detail(request, note_id):
 	note = get_object_or_404(Note, pk=note_id)
-	return render(request, "notes/detail.html", {"note": note})
+	owner = get_object_or_404(User, pk=note.owner_id)
+	return render(request, "notes/detail.html", {"note": note, "owner_name": owner.username})
 
 
 def delete_note(request, note_id):

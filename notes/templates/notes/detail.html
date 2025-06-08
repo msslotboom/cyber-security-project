@@ -3,9 +3,10 @@ the one with |safe
 <h4>{{ note.note_text }}</h4>
 {% endcomment %}
 <h4>{{ note.note_text|safe }}</h4>
+<h3>Welcome back, {{ logged_username }}</h3>
 <h6>Owner: {{owner_name}}</h6>
 <a href="{% url 'delete_note' note.id %}">Click here to delete this note!</a>
-<form method="post" action="{% url 'delete_note' note.id %}">
+<!-- <form method="post" action="{% url 'delete_note' note.id %}">
     {% csrf_token %}
     <button type="submit">Delete Note</button>
-</form>
+</form> -->

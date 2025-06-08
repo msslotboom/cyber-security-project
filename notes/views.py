@@ -27,7 +27,7 @@ def detail(request, note_id):
 	# Fix: comment line above, uncomment line below
 	# note = get_object_or_404(Note, pk=note_id, owner=request.user)
 	owner = get_object_or_404(User, pk=note.owner_id)
-	return render(request, "notes/detail.html", {"note": note, "owner_name": owner.username})
+	return render(request, "notes/detail.html", {"note": note, "owner_name": owner.username, "logged_username": request.user})
 
 # Fix for broken access control: uncomment line below
 # @login_required

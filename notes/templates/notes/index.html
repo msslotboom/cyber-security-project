@@ -5,7 +5,10 @@
             <button type="submit">Logout</button>
         </form>
     </p>
-    <p><a href="{% url 'create_note' %}">Create Note</a></p>
+    <p>
+        <a href="{% url 'create_note' %}">Create Note</a> <br/>
+        <a href="{% url 'import_note' %}">Import Note</a>
+    </p>
 {% else %}
     <p><a href="{% url 'login' %}">Login</a> | <a href="{% url 'signup' %}">Sign Up</a></p>
 {% endif %}

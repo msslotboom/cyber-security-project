@@ -10,4 +10,5 @@ urlpatterns = [
 	path("logout/", views.CustomLogoutView.as_view(), name="logout"),
 	path("signup/", views.CustomSignupView.as_view(), name="signup"),
 	path("create/", views.create_note, name="create_note"),
+	path("import/", views.import_note_from_url, name="import_note")
 ]

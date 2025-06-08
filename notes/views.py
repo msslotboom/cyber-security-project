@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.utils import timezone
 from notes.models import Note
 from django.contrib.auth.models import User
+import requests
 
 def index(request):
 	if request.user.is_authenticated:
@@ -64,6 +65,29 @@ def create_note(request):
 			)
 			return redirect('index')
 	return render(request, 'notes/create_note.html')
+
+
+# Note import that allows SSRF. Fix is commented in this function, and in template in frontend.
+def import_note_from_url(request):
+    if request.method == 'POST':
+        url = request.POST.get('url')
+        # Fix for SSRF: Never trust urls given by users. The line below changes the design of this feature,
+        # To only allow imports from an old note app, that is also owned by us, and the url form the form is
+        # actually the note id.
+        # url = "https://localhost:8001/notes/" + url
+        print(url)
+        try:
+            response = requests.get(url)
+            Note.objects.create(
+                owner=request.user,
+                note_text=response.text[:500],
+                pub_date=timezone.now()
+            )
+        except:
+            pass
+        return redirect('index')
+    return render(request, 'notes/import_note.html')
+
 
 class CustomLoginView(LoginView):
 	# template_name = 'registration/login.html'

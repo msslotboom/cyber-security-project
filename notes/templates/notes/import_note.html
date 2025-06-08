@@ -1,0 +1,32 @@
+<h2>Import Note from URL</h2>
+
+<form method="post" action="{% url 'import_note' %}">
+    {% csrf_token %}
+    <p>
+        <input
+            type="text"
+            name="url"
+            id="url"
+            placeholder="Enter the domain where your previous note is here!"
+            style="width: 500px"
+        />
+    </p>
+    <button type="submit">Import Note</button>
+</form>
+
+<!-- Safe version, uncomment form below
+<form method="post" action="{% url 'import_note' %}">
+    {% csrf_token %}
+    <p>
+        <input
+            type="text"
+            name="url"
+            id="url"
+            placeholder="Enter note id!"
+            style="width: 500px"
+        />
+    </p>
+    <button type="submit">Import Note</button>
+</form>
+
+<p><a href="{% url 'index' %}">Back to Notes</a></p> -->
